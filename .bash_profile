@@ -8,6 +8,7 @@ if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 
 # management
 alias cds='cd /Applications/MAMP/htdocs/sites'
+alias cdv='cd ~/vagrant-local/www'
 alias cl='clear'
 alias wpcon='subl wp-config.php'
 alias subl='/Applications/Sublime\ Text\ 3.app/Contents/SharedSupport/bin/subl'
@@ -58,7 +59,7 @@ function git_info() {
 }
 
 #Terminal Prompt
-PS1="\w\$(git_info)\n\[\e[0;35m\]\[\e[40m\]::\[\e[m\]\[\e[m\] ";
+PS1="\w\[\033[0;35m\]\$(git_info)\[\033[0m\]\n\[\e[0;35m\]\[\e[40m\]::\[\e[m\]\[\e[m\] ";
 #enables color in the terminal bash shell export
 CLICOLOR=1
 #sets up the color scheme for list export
