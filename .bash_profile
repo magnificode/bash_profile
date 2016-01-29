@@ -38,6 +38,37 @@ function gaa() {
     git add --all 'git rev-parse --show-toplevel'
 }
 
+# Check out a Git branch, tag it with archive/<branch-name>, remove
+# the remote branch, and get ready to do it all over again.
+#
+# USAGE:
+#   archive-branch feature/my-branch
+function archive-branch() {
+  if [[ "$1" == "master" ]]; then
+    echo "I'm sorry, $USER. I'm afraid I can't do that. (Cannot archive master branch)"
+    return
+  fi
+
+  git checkout -b "$1" --track origin/"$1" \
+  && git tag archive/"$1" && echo "Tag created: archive/$1" \
+  && git push origin :"$1" && echo "Removed remote branch $1" \
+  && git checkout master && git branch -d "$1"
+  echo ""
+}
+
+# Run through archive-branch in a loop, useful for archiving a *bunch* of
+# merged branches in a repo.
+#
+# USAGE:
+#   archive-branches fix/my-fix feature/some-feature
+function archive-branches() {
+  echo "Archiving Git branches:"
+  echo ""
+  for branch in "$@"; do
+    echo "Running archive-branch $branch:"
+    archive-branch "$branch"
+  done
+}
 
 ################
 #   Coloring
